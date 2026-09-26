@@ -1,8 +1,8 @@
-import { AppState } from "@/src/store/rootReducer";
+import { AppState } from "@/store/rootReducer";
 import { BaseQueryFn, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { RefreshTokenResponse } from "./type";
-import { logout, setAccessToken, setAccessTokenExpiration } from "@/src/features/auth/slices/authSlices";
-import type { NormalizedError } from "@/src/utils/error/errorType";
+import { logout, setAccessToken, setAccessTokenExpiration } from "@/features/auth/slices/authSlices";
+import type { NormalizedError } from "@/utils/error/errorType";
 
 const rawBaseQuery = fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
