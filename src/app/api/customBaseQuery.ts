@@ -2,6 +2,7 @@ import { AppState } from "@/src/store/rootReducer";
 import { BaseQueryFn, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { RefreshTokenResponse } from "./type";
 import { logout, setAccessToken, setAccessTokenExpiration } from "@/src/features/auth/slices/authSlices";
+import type { NormalizedError } from "@/src/utils/error/errorType";
 
 const rawBaseQuery = fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -43,6 +44,26 @@ const customBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryEr
             } else {
                 api.dispatch(logout());
             }
+    }
+
+    //Backend tarafından gelen hataları yakalamak için
+    if (result.error) {
+        const err = result.error as FetchBaseQueryError;
+        let normalizedMessage = "Beklenmeyen bir hata oluştu.";
+
+        if (typeof err.data === "string") {
+            normalizedMessage = err.data;
+        } else if (typeof err.data === "object" && err.data !== null) {
+            normalizedMessage = (err.data as any).Message ?? JSON.stringify(err.data);
+        }
+
+        result.error = {
+            ...err,
+            data: {
+                ...(typeof err.data === "object" ? err.data : {}),
+                Message: normalizedMessage,
+            }
+        } as NormalizedError;
     }
 
     // Dev modunda hata var ise konsola yazdırma
