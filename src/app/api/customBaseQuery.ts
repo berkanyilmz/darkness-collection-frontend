@@ -1,44 +1,57 @@
-import { AppState } from "@/store/rootReducer";
-import { BaseQueryFn, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { RefreshTokenResponse } from "./type";
-import { logout, setAccessToken, setAccessTokenExpiration } from "@/features/auth/slices/authSlices";
-import type { NormalizedError } from "@/utils/error/errorType";
+import { fetchBaseQuery } from "@reduxjs/toolkit/query";
+import type {
+    BaseQueryFn,
+    FetchArgs,
+    FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { RootState } from "@/store/store";
+import { setCredentials, logOut } from '@/features/auth/slices/authSlices';
+import { AuthResponse } from "@/features/auth/types/authTypes";
+import { NormalizedError } from "@/utils/error/errorType";
 
-const rawBaseQuery = fetchBaseQuery({
+const baseQuery = fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
     credentials: 'include',
     prepareHeaders: (headers, {getState}) => {
-        const token = (getState() as AppState).auth.accessToken;
+        const accessToken = (getState() as RootState).auth.accessToken;
 
-        if (token) {
-            headers.set('Authorization', `Bearer ${token}`);
+        if (accessToken) {
+            headers.set('Authorization', `Bearer ${accessToken}`);
         }
-        headers.set("Accept", "application/json");
-        headers.set("X-Correlation-ID", typeof window !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`);
         return headers;
     }
 });
 
 const customBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (args, api, extraOptions) => {
-    let result = await rawBaseQuery(args, api, extraOptions);
+    let result = await baseQuery(args, api, extraOptions);
 
-    if (result.error?.status === 401) {
-        const refreshResult = await rawBaseQuery(
+    if (result.error && result.error?.status === 401) {
+        const url = typeof args === 'string' ? args : args.url;
+
+        if (url === '/auth/login' || url === '/auth/refresh') {
+            // api.dispatch(logOut());
+            return result;
+        }
+
+        // Yeni bir access token almak için refresh token ile istek at
+        const refreshResult = await baseQuery(
             {
                 url: '/auth/refresh',
                 method: 'POST',
             }, api, extraOptions);
 
-            if (!refreshResult.error) {
-                const data = refreshResult.data as RefreshTokenResponse;
+            if (refreshResult.data) {
+                const {accessToken} = refreshResult.data as AuthResponse;
+                // Yeni access token'ı store'a kaydet
+                api.dispatch(setCredentials({accessToken}));
 
-                if (data?.accessToken) {
-                    api.dispatch(setAccessToken(data.accessToken));
-                }
-
-                result = await rawBaseQuery(args, api, extraOptions);
+                // Orijinal isteği tekrar dene
+                result = await baseQuery(args, api, extraOptions);
             } else {
-                api.dispatch(logout());
+                // Refresh token geçersiz veya süresi dolmuş, kullanıcıyı çıkış yaptır
+                api.dispatch(logOut());
+                if (typeof window !== 'undefined')  {
+                    window.location.href = '/login';
+                }
             }
     }
 

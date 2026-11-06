@@ -17,7 +17,7 @@ export default function DashboardLayout({
     const pathname = usePathname();
     const dispatch = useDispatch();
 
-    const { token, user } = useSelector((state: RootState) => state.auth);
+    const { accessToken, user } = useSelector((state: RootState) => state.auth);
     const { canAccess } = usePermission();
 
     const [refresh] = useRefreshMutation();
@@ -30,7 +30,7 @@ export default function DashboardLayout({
 
         const verifySessionAndFetchProfile = async () => {
             try {
-                let currentToken = token;
+                let currentToken = accessToken;
 
                 // Sayfa yenilendiyse (RAM'de token yoksa) çerezden yeni token al
                 if (!currentToken) {

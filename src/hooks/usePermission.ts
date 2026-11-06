@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 
-const usePermission = () => {
-    const { user, isAuthenticated} = useSelector((state: RootState) => state.auth)
+export const usePermission = () => {
+    const { accessToken, user, isAuthenticated} = useSelector((state: RootState) => state.auth)
 
     const allowedPages = user?.allowedPages || [];
     const allowedMenus = user?.allowedMenus || [];
