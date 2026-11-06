@@ -32,12 +32,8 @@ const customBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryEr
             if (!refreshResult.error) {
                 const data = refreshResult.data as RefreshTokenResponse;
 
-                if (data?.data?.accessToken) {
-                    api.dispatch(setAccessToken(data.data.accessToken));
-                }
-
-                if (data?.data?.accessTokenExpiration) {
-                    api.dispatch(setAccessTokenExpiration(data.data.accessTokenExpiration));
+                if (data?.accessToken) {
+                    api.dispatch(setAccessToken(data.accessToken));
                 }
 
                 result = await rawBaseQuery(args, api, extraOptions);

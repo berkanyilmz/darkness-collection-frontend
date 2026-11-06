@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./store";
 import ThemeRegistry from "@/app/theme/ThemeRegistry";
 import { PersistGate } from "redux-persist/integration/react";
-import { PermissionProvider } from "@/contexts/PermissionContext";
 
 //const {claimIds} = usePermissions() => diyerek claim'lere erişebilirsin
 
@@ -32,9 +31,7 @@ const Providers = ({ children }: { children: ReactNode }) => {
     <Provider store={store}>
       <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
         <ThemeRegistry>
-          <PermissionProvider>
-              {children}
-          </PermissionProvider>
+            {children}
         </ThemeRegistry>
       </PersistGate>
     </Provider>

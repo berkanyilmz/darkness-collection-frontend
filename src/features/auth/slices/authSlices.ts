@@ -1,4 +1,4 @@
-import { User } from "@/src/features/Users/types/users";
+import { User } from "@/features/Users/types/users";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface AuthState {

@@ -1,2 +1,0 @@
-customBaseQuery kısmı tamamlanmadı
-PermissionContext'in içi yarım kaldı

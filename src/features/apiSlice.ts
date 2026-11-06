@@ -6,6 +6,7 @@ const apiSlice = createApi({
   baseQuery: customBaseQuery,
   tagTypes: [
     // Api'lerin tag'lerini buraya ekleyebilirsin
+    'User'
   ],
   endpoints: () => ({}),
 });
