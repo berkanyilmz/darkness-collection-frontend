@@ -1,51 +1,42 @@
-import { User } from "@/features/Users/types/users";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export interface AuthState {
-    accessToken: string | null;
-    accessTokenExpiration: string | null;
-    claimIds: number[];
-    user: User | null;
-}
+import { AuthState } from "../types/authTypes";
+import { UserDto } from "@/features/Users/types/users";
 
 const initialState: AuthState = {
-    accessToken: null,
-    claimIds: [],
     user: null,
-    accessTokenExpiration: null,
+    accessToken: null,
+    isAuthenticated: false,
 };
 
 const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setAuth(state, action: PayloadAction<AuthState>) {
-            return action.payload;
+        setCredentials: (
+            state,
+            action: PayloadAction<{accessToken: string; user?: UserDto}>
+        ) => {
+            state.accessToken = action.payload.accessToken;
+            state.isAuthenticated = true;
+            if (action.payload.user) {
+                state.user = action.payload.user;
+            }
         },
-        setAccessToken(state, action: PayloadAction<string>) {
-            state.accessToken = action.payload;
-        },
-        setAccessTokenExpiration(state, action: PayloadAction<string>) {
-            state.accessTokenExpiration = action.payload;
-        },
-        setUser(state, action: PayloadAction<User>) {
+        setUser: (state, action: PayloadAction<UserDto | null>) => {
             state.user = action.payload;
+            state.isAuthenticated = true;
         },
-        setClaimIds(state, action: PayloadAction<number[]>) {
-            state.claimIds = action.payload;
-        },
-        logout() {
-            return initialState;
+        logOut: (state) => {
+            state.user = null;
+            state.accessToken = null;
+            state.isAuthenticated = false;
         },
     },
 });
 
 export const {
-    setAuth,
-    setAccessToken,
-    setAccessTokenExpiration,
+    setCredentials,
     setUser,
-    setClaimIds,
-    logout,
+    logOut,
 } = authSlice.actions;
 export default authSlice.reducer;
