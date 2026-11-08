@@ -3,7 +3,7 @@
 import React, { ReactNode, useState, useEffect } from "react";
 import { Provider } from "react-redux";
 import { store, persistor } from "./store";
-import ThemeRegistry from "@/app/theme/ThemeRegistry";
+import ThemeRegistry from "@/app/theme/ThemeRegistery"
 import { PersistGate } from "redux-persist/integration/react";
 
 //const {claimIds} = usePermissions() => diyerek claim'lere erişebilirsin
@@ -19,9 +19,7 @@ const Providers = ({ children }: { children: ReactNode }) => {
     return (
       <Provider store={store}>
         <ThemeRegistry>
-          <PermissionProvider>
-              {children}
-          </PermissionProvider>
+          {children}
         </ThemeRegistry>
       </Provider>
     );
