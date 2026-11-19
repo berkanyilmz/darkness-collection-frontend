@@ -1,9 +1,6 @@
-<!-- BEGIN:nextjs-agent-rules -->
-
-# This is NOT the Next.js you know
-
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
-
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
-
-<!-- END:nextjs-agent-rules -->
+## Auth & RBAC Mimari Kuralları
+- `accessToken` yalnızca Redux belleğinde (RAM) tutulur; `authPersistConfig` içinde `blacklist: ['accessToken']` zorunludur, asla `localStorage` veya `sessionStorage`'a yazılmaz.
+- `refreshToken` yalnızca Backend tarafından yönetilen HttpOnly Cookie'de saklanır; Frontend JavaScript tarafında erişilmez. Tüm API isteklerinde `credentials: 'include'` kullanılır.
+- `store.ts` içinde ikinci bir `persistReducer` sarmalaması yapılmaz; persist yalnızca `rootReducer.ts` içindeki `auth` slice'ına uygulanır.
+- Her kullanıcının tek bir `role` değeri vardır. Sayfa erişimleri ve sol menü (Sidebar) hardcode edilmez; `GET /users/me` yanıtından gelen `allowedPages` ve `allowedMenus` üzerinden `usePermission` kancası ile yönetilir.
+- `(DashboardPanel)/layout.tsx` F5 sonrası `/auth/refresh` + `/users/me` oturum kurtarmasını ve yetkisiz URL'lerde `/403` yönlendirmesini üstlenir.
