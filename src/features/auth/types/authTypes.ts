@@ -1,9 +1,9 @@
 import { UserDto } from "@/features/Users/types/users";
 
 export interface AuthRegister {
-    name: string;
-    surname: string;
-    phoneNumber?: string; // Telefon alanını opsiyonel
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
     email: string;
     password: string;
 }

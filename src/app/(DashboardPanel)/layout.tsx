@@ -49,7 +49,7 @@ export default function DashboardLayout({
             } catch (error) {
                 // Refresh token süresi bitmişse veya çerez yoksa oturumu temizle ve login'e at
                 dispatch(logOut());
-                router.replace('/login');
+                router.replace('auth/login');
                 return;
             } finally {
                 if (isMounted) {

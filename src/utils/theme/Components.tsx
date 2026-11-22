@@ -217,90 +217,37 @@ const components = (theme: Theme): Components => {
         root: {
           textTransform: "none",
           boxShadow: "none",
+          variants: [
+            ...(["primary", "secondary", "success", "error", "info", "warning"] as const).map(
+              (color) => ({
+                props: { variant: "text" as const, color },
+                style: {
+                  backgroundColor: theme.palette[color].light,
+                  "&:hover": {
+                    backgroundColor: theme.palette[color].main,
+                    color: "white",
+                  },
+                },
+              })
+            ),
+            ...(["primary", "secondary", "success", "error", "info", "warning"] as const).map(
+              (color) => ({
+                props: { variant: "outlined" as const, color },
+                style: {
+                  "&:hover": {
+                    backgroundColor: theme.palette[color].main,
+                    color: "white",
+                  },
+                },
+              })
+            ),
+          ],
         },
         text: {
           padding: "5px 15px",
           "&:hover": {
             backgroundColor: theme.palette.primary.light,
             color: theme.palette.primary.main,
-          },
-        },
-        textPrimary: {
-          backgroundColor: theme.palette.primary.light,
-          "&:hover": {
-            backgroundColor: theme.palette.primary.main,
-            color: "white",
-          },
-        },
-        textSecondary: {
-          backgroundColor: theme.palette.secondary.light,
-          "&:hover": {
-            backgroundColor: theme.palette.secondary.main,
-            color: "white",
-          },
-        },
-        textSuccess: {
-          backgroundColor: theme.palette.success.light,
-          "&:hover": {
-            backgroundColor: theme.palette.success.main,
-            color: "white",
-          },
-        },
-        textError: {
-          backgroundColor: theme.palette.error.light,
-          "&:hover": {
-            backgroundColor: theme.palette.error.main,
-            color: "white",
-          },
-        },
-        textInfo: {
-          backgroundColor: theme.palette.info.light,
-          "&:hover": {
-            backgroundColor: theme.palette.info.main,
-            color: "white",
-          },
-        },
-        textWarning: {
-          backgroundColor: theme.palette.warning.light,
-          "&:hover": {
-            backgroundColor: theme.palette.warning.main,
-            color: "white",
-          },
-        },
-        outlinedPrimary: {
-          "&:hover": {
-            backgroundColor: theme.palette.primary.main,
-            color: "white",
-          },
-        },
-        outlinedSecondary: {
-          "&:hover": {
-            backgroundColor: theme.palette.secondary.main,
-            color: "white",
-          },
-        },
-        outlinedError: {
-          "&:hover": {
-            backgroundColor: theme.palette.error.main,
-            color: "white",
-          },
-        },
-        outlinedSuccess: {
-          "&:hover": {
-            backgroundColor: theme.palette.success.main,
-            color: "white",
-          },
-        },
-        outlinedInfo: {
-          "&:hover": {
-            backgroundColor: theme.palette.info.main,
-            color: "white",
-          },
-        },
-        outlinedWarning: {
-          "&:hover": {
-            backgroundColor: theme.palette.warning.main,
-            color: "white",
           },
         },
       },
@@ -380,49 +327,26 @@ const components = (theme: Theme): Components => {
     },
     MuiAlert: {
       styleOverrides: {
-        filledSuccess: {
+        filled: {
           color: "white",
         },
-        filledInfo: {
-          color: "white",
-        },
-        filledError: {
-          color: "white",
-        },
-        filledWarning: {
-          color: "white",
-        },
-        standardSuccess: {
-          backgroundColor: theme.palette.success.light,
-          color: theme.palette.success.main,
-        },
-        standardError: {
-          backgroundColor: theme.palette.error.light,
-          color: theme.palette.error.main,
-        },
-        standardWarning: {
-          backgroundColor: theme.palette.warning.light,
-          color: theme.palette.warning.main,
-        },
-        standardInfo: {
-          backgroundColor: theme.palette.info.light,
-          color: theme.palette.info.main,
-        },
-        outlinedSuccess: {
-          borderColor: theme.palette.success.main,
-          color: theme.palette.success.main,
-        },
-        outlinedWarning: {
-          borderColor: theme.palette.warning.main,
-          color: theme.palette.warning.main,
-        },
-        outlinedError: {
-          borderColor: theme.palette.error.main,
-          color: theme.palette.error.main,
-        },
-        outlinedInfo: {
-          borderColor: theme.palette.info.main,
-          color: theme.palette.info.main,
+        root: {
+          variants: [
+            ...(["success", "error", "warning", "info"] as const).map((severity) => ({
+              props: { variant: "standard" as const, severity },
+              style: {
+                backgroundColor: theme.palette[severity].light,
+                color: theme.palette[severity].main,
+              },
+            })),
+            ...(["success", "error", "warning", "info"] as const).map((severity) => ({
+              props: { variant: "outlined" as const, severity },
+              style: {
+                borderColor: theme.palette[severity].main,
+                color: theme.palette[severity].main,
+              },
+            })),
+          ],
         },
       },
     },
@@ -441,9 +365,14 @@ const components = (theme: Theme): Components => {
         },
         input: {
           padding: "12px 14px",
-        },
-        inputSizeSmall: {
-          padding: "8px 14px",
+          variants: [
+            {
+              props: { size: "small" },
+              style: {
+                padding: "8px 14px",
+              },
+            },
+          ],
         },
       },
     },

@@ -1,12 +1,13 @@
 import apiSlice from "@/features/apiSlice";
 import { AuthRegister, AuthRequest, AuthResponse } from "@/features/auth/types/authTypes";
 import { UserDto } from "../Users/types/users";
+import { ApiResponse } from "@/app/api/type";
 
 export const authApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         // User Register Endpoint
-        register: builder.mutation<{success: boolean, Message: string}, AuthRegister>({
-            invalidatesTags: () => [{type: 'User', id: 'LIST'}],
+        register: builder.mutation<ApiResponse<{ message: string }>, AuthRegister>({
+            invalidatesTags: () => [{ type: 'User', id: 'LIST' }],
             query: (userData) => ({
                 url: '/auth/register',
                 method: 'POST',
@@ -36,6 +37,7 @@ export const authApi = apiSlice.injectEndpoints({
         me: builder.query<UserDto, void>({
             query: () => 'users/me',
         }),
+
     }),
     overrideExisting: false,
 })

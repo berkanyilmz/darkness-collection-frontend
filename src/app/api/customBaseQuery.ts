@@ -2,16 +2,18 @@ import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 import type {
     BaseQueryFn,
     FetchArgs,
-    FetchBaseQueryError } from "@reduxjs/toolkit/query";
+    FetchBaseQueryError
+} from "@reduxjs/toolkit/query";
 import { RootState } from "@/store/store";
 import { setCredentials, logOut } from '@/features/auth/slices/authSlices';
 import { AuthResponse } from "@/features/auth/types/authTypes";
-import { NormalizedError } from "@/utils/error/errorType";
+import { BackendErrorResponse, NormalizedError } from "@/utils/error/errorType";
+import { getErrorMessageByCode } from "@/utils/error/errorMessages";
 
 const baseQuery = fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
     credentials: 'include',
-    prepareHeaders: (headers, {getState}) => {
+    prepareHeaders: (headers, { getState }) => {
         const accessToken = (getState() as RootState).auth.accessToken;
 
         if (accessToken) {
@@ -27,7 +29,7 @@ const customBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryEr
     if (result.error && result.error?.status === 401) {
         const url = typeof args === 'string' ? args : args.url;
 
-        if (url === '/auth/login' || url === '/auth/refresh') {
+        if (url === '/auth/login' || url === '/auth/refresh' || url === '/auth/register') {
             // api.dispatch(logOut());
             return result;
         }
@@ -39,37 +41,52 @@ const customBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryEr
                 method: 'POST',
             }, api, extraOptions);
 
-            if (refreshResult.data) {
-                const {accessToken} = refreshResult.data as AuthResponse;
-                // Yeni access token'ı store'a kaydet
-                api.dispatch(setCredentials({accessToken}));
+        if (refreshResult.data) {
+            const { accessToken } = refreshResult.data as AuthResponse;
+            // Yeni access token'ı store'a kaydet
+            api.dispatch(setCredentials({ accessToken }));
 
-                // Orijinal isteği tekrar dene
-                result = await baseQuery(args, api, extraOptions);
-            } else {
-                // Refresh token geçersiz veya süresi dolmuş, kullanıcıyı çıkış yaptır
-                api.dispatch(logOut());
-                if (typeof window !== 'undefined')  {
-                    window.location.href = '/login';
-                }
+            // Orijinal isteği tekrar dene
+            result = await baseQuery(args, api, extraOptions);
+        } else {
+            // Refresh token geçersiz veya süresi dolmuş, kullanıcıyı çıkış yaptır
+            api.dispatch(logOut());
+            if (typeof window !== 'undefined') {
+                window.location.href = '/auth/login';
             }
+        }
     }
 
     //Backend tarafından gelen hataları yakalamak için
     if (result.error) {
         const err = result.error as FetchBaseQueryError;
         let normalizedMessage = "Beklenmeyen bir hata oluştu.";
+        let errorCode: string | undefined;
 
         if (typeof err.data === "string") {
             normalizedMessage = err.data;
         } else if (typeof err.data === "object" && err.data !== null) {
-            normalizedMessage = (err.data as any).Message ?? JSON.stringify(err.data);
+            const data = err.data as Partial<BackendErrorResponse> & {
+                Message?: string;
+                code?: string;
+            };
+
+            if (data.exception) {
+                errorCode = data.exception.code;
+                normalizedMessage = getErrorMessageByCode(
+                    data.exception.code,
+                    data.exception.message
+                );
+            } else {
+                normalizedMessage = (err.data as any).Message ?? JSON.stringify(err.data);
+            }
         }
 
         result.error = {
             ...err,
             data: {
                 ...(typeof err.data === "object" ? err.data : {}),
+                code: errorCode,
                 Message: normalizedMessage,
             }
         } as NormalizedError;

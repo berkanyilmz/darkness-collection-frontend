@@ -1,0 +1,4 @@
+kayıt başarılı olunca modal ekranını açmayı ekle, antigravity uygulamasında nasıl yapılacağı var
+Kayıt başarılı olunca giriş sayfasına yönlendirme yapılsın
+gemini ve antigravity uygulamasında email ve sms doğrulamanın nasıl yapılacağı var
+önce backend tarafına verify sonra da ön yüzde verify ekle
