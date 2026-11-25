@@ -2,7 +2,7 @@ import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 export type NormalizedError = FetchBaseQueryError & {
     data: {
-        code: string;
+        code?: string;
         Message: string;
     } & Record<string, unknown>;
 };
@@ -11,7 +11,7 @@ export interface BackendException {
     code: string;
     createtime: string;
     hostName: string;
-    message: string;
+    message: string | Record<string, string>;
     path: string;
 }
 

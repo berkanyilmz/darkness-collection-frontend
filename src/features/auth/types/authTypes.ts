@@ -22,3 +22,19 @@ export interface AuthState {
     accessToken: string | null;
     isAuthenticated: boolean;
 }
+
+export type VerificationType =
+    | "EMAIL_VERIFICATION"
+    | "SMS_VERIFICATION"
+    | "PASSWORD_RESET"
+
+export interface VerifyRequest {
+    email: string;
+    verificationType: VerificationType;
+    code: string;
+}
+
+export interface ResendCodeRequest {
+    email: string;
+    verificationType: VerificationType;
+}

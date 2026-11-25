@@ -10,6 +10,14 @@ import { AuthResponse } from "@/features/auth/types/authTypes";
 import { BackendErrorResponse, NormalizedError } from "@/utils/error/errorType";
 import { getErrorMessageByCode } from "@/utils/error/errorMessages";
 
+const PUBLIC_AUTH_URLS = [
+    '/auth/login',
+    '/auth/refresh',
+    '/auth/register',
+    '/auth/verify',
+    '/auth/resend-code',
+];
+
 const baseQuery = fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
     credentials: 'include',
@@ -29,7 +37,7 @@ const customBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryEr
     if (result.error && result.error?.status === 401) {
         const url = typeof args === 'string' ? args : args.url;
 
-        if (url === '/auth/login' || url === '/auth/refresh' || url === '/auth/register') {
+        if (PUBLIC_AUTH_URLS.includes(url)) {
             // api.dispatch(logOut());
             return result;
         }
@@ -73,9 +81,12 @@ const customBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryEr
 
             if (data.exception) {
                 errorCode = data.exception.code;
+                const rawMessage = typeof data.exception.message === "string"
+                    ? data.exception.message
+                    : Object.values(data.exception.message).join(", ");
                 normalizedMessage = getErrorMessageByCode(
                     data.exception.code,
-                    data.exception.message
+                    rawMessage
                 );
             } else {
                 normalizedMessage = (err.data as any).Message ?? JSON.stringify(err.data);

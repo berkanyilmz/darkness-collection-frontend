@@ -186,7 +186,7 @@ const Register = () => {
                         message: "Hesabınız başarıyla doğrulandı! Giriş sayfasına yönlendiriliyorsunuz."
                     });
                     setTimeout(() => {
-                        router.push("/login");
+                        router.push("/auth/login");
                     }, 3000)
                 }}
             />
