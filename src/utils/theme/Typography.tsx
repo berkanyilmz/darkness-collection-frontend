@@ -1,4 +1,19 @@
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Bodoni_Moda, Manrope, Plus_Jakarta_Sans } from "next/font/google";
+
+export const bodoni = Bodoni_Moda({
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
+  fallback: ["Georgia", "serif"],
+});
+
+export const manrope = Manrope({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
+  fallback: ["Helvetica", "Arial", "sans-serif"],
+});
 
 export const plus = Plus_Jakarta_Sans({
   weight: ["300", "400", "500", "600", "700"],
@@ -8,59 +23,82 @@ export const plus = Plus_Jakarta_Sans({
 });
 
 const typography = {
-  fontFamily: plus.style.fontFamily,
+  fontFamily: manrope.style.fontFamily,
   h1: {
-    fontWeight: 600,
-    fontSize: '2.25rem',
-    lineHeight: '2.75rem',
+    fontFamily: bodoni.style.fontFamily,
+    fontWeight: 500,
+    fontSize: "3rem",
+    lineHeight: 1.1,
+    letterSpacing: "0.02em",
   },
   h2: {
-    fontWeight: 600,
-    fontSize: '1.875rem',
-    lineHeight: '2.25rem',
+    fontFamily: bodoni.style.fontFamily,
+    fontWeight: 500,
+    fontSize: "2.25rem",
+    lineHeight: 1.15,
+    letterSpacing: "0.02em",
   },
   h3: {
-    fontWeight: 600,
-    fontSize: '1.5rem',
-    lineHeight: '1.75rem',
+    fontFamily: bodoni.style.fontFamily,
+    fontWeight: 500,
+    fontSize: "1.75rem",
+    lineHeight: 1.25,
+    letterSpacing: "0.01em",
   },
   h4: {
-    fontWeight: 600,
-    fontSize: '1.3125rem',
-    lineHeight: '1.6rem',
+    fontFamily: bodoni.style.fontFamily,
+    fontWeight: 500,
+    fontSize: "1.5rem",
+    lineHeight: 1.3,
+    letterSpacing: "0.01em",
   },
   h5: {
-    fontWeight: 600,
-    fontSize: '1.125rem',
-    lineHeight: '1.6rem',
+    fontFamily: bodoni.style.fontFamily,
+    fontWeight: 500,
+    fontSize: "1.25rem",
+    lineHeight: 1.35,
   },
   h6: {
-    fontWeight: 600,
-    fontSize: '1rem',
-    lineHeight: '1.2rem',
+    fontFamily: bodoni.style.fontFamily,
+    fontWeight: 500,
+    fontSize: "1rem",
+    lineHeight: 1.4,
   },
   button: {
-    textTransform: 'capitalize',
-    fontWeight: 400,
+    fontFamily: manrope.style.fontFamily,
+    textTransform: "uppercase" as const,
+    fontWeight: 600,
+    letterSpacing: "0.22em",
   },
   body1: {
-    fontSize: '0.875rem',
+    fontFamily: manrope.style.fontFamily,
+    fontSize: "0.875rem",
     fontWeight: 400,
-    lineHeight: '1.334rem',
+    lineHeight: 1.6,
   },
   body2: {
-    fontSize: '0.75rem',
-    letterSpacing: '0rem',
-    fontWeight: 400,
-    lineHeight: '1rem',
+    fontFamily: manrope.style.fontFamily,
+    fontSize: "0.8125rem",
+    fontWeight: 300,
+    lineHeight: 1.55,
   },
   subtitle1: {
-    fontSize: '0.875rem',
+    fontFamily: manrope.style.fontFamily,
+    fontSize: "0.875rem",
     fontWeight: 400,
   },
   subtitle2: {
-    fontSize: '0.875rem',
-    fontWeight: 400,
+    fontFamily: manrope.style.fontFamily,
+    fontSize: "0.8125rem",
+    fontWeight: 500,
+  },
+  overline: {
+    fontFamily: manrope.style.fontFamily,
+    fontSize: "0.625rem",
+    fontWeight: 600,
+    lineHeight: 1.4,
+    letterSpacing: "0.26em",
+    textTransform: "uppercase" as const,
   },
 };
 

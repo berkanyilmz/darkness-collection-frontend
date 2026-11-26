@@ -17,9 +17,9 @@ const useThemeSettings = () => {
     // });
     const theme = BuildTheme({
         direction: "ltr",
-        theme: "BLUE_THEME",
-        mode: "light",
-        borderRadius: 8,
+        theme: "BLACK_THEME",
+        mode: "dark",
+        borderRadius: 0,
     });
     useEffect(() => {
         document.dir = document.body.dir = theme.direction;

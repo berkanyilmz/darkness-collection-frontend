@@ -106,6 +106,65 @@ const DarkThemeColors = [
       },
     },
   },
+  {
+    name: 'BLACK_THEME',
+    palette: {
+      primary: {
+        main: '#7A1825',
+        light: '#3D0F18',
+        dark: '#641C2A',
+        contrastText: '#F5F5F7',
+      },
+      secondary: {
+        main: '#641C2A',
+        light: '#2A1A1E',
+        dark: '#3D0F18',
+        contrastText: '#F5F5F7',
+      },
+      success: {
+        main: '#2E7D5B',
+        light: '#11241C',
+        dark: '#1F5C42',
+        contrastText: '#F5F5F7',
+      },
+      info: {
+        main: '#E5D0D3',
+        light: '#171717',
+        dark: '#641C2A',
+        contrastText: '#F5F5F7',
+      },
+      error: {
+        main: '#FF868B',
+        light: '#2A0B10',
+        dark: '#7A1825',
+        contrastText: '#F5F5F7',
+      },
+      grey: {
+        100: '#141415',
+        200: '#2A1A1E',
+        300: '#3D0F18',
+        400: '#7A6F72',
+        500: '#B3B0AC',
+        600: '#F5F5F7',
+      },
+      text: {
+        primary: '#F5F5F7',
+        secondary: '#B3B0AC',
+      },
+      action: {
+        disabledBackground: 'rgba(122, 24, 37, 0.35)',
+        disabled: 'rgba(245, 245, 247, 0.45)',
+        hoverOpacity: 0.08,
+        hover: '#1F1F1F',
+      },
+      divider: '#3D0F18',
+      background: {
+        default: '#0A0A0A',
+        dark: '#0A0A0A',
+        paper: '#111112',
+      },
+    },
+  },
 ];
 
 export { DarkThemeColors };

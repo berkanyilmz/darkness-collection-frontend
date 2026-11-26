@@ -1,17 +1,11 @@
-"use client";
-
+import type { Metadata } from "next";
 import Register from "@/features/auth/components/Register";
-import Grid from "@mui/material/Grid";
+
+export const metadata: Metadata = {
+  title: "Kayıt Ol | DARKNESS COLLECTION",
+  description: "Darkness Collection Atelier koleksiyoner üyeliği oluşturun.",
+};
 
 export default function RegisterPage() {
-    return (
-        <Grid container
-         spacing={2}
-         sx={{
-            alignItems: "center",
-            justifyContent: "center"
-         }} >
-            <Register />
-        </Grid>
-    );
+  return <Register />;
 }

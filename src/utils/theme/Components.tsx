@@ -22,6 +22,12 @@ const components = (theme: Theme): Components => {
           margin: 0,
           padding: 0,
         },
+        "input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus": {
+          WebkitTextFillColor: theme.palette.text.primary,
+          WebkitBoxShadow: `0 0 0px 1000px ${theme.palette.grey[100]} inset`,
+          transition: "background-color 5000s ease-in-out 0s",
+          caretColor: theme.palette.text.primary,
+        },
         "#root": {
           height: "100%",
         },
@@ -400,10 +406,20 @@ const components = (theme: Theme): Components => {
         },
       },
     },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          border: `1px solid ${theme.palette.secondary.main}`,
+          backgroundColor: theme.palette.background.default,
+          boxShadow: "none",
+        },
+      },
+    },
     MuiDialogTitle: {
       styleOverrides: {
         root: {
-          fontSize: "1.25rem",
+          fontSize: "1.35rem",
+          fontFamily: theme.typography.h4.fontFamily,
         },
       },
     },
