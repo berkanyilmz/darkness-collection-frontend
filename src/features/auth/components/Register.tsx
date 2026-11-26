@@ -9,10 +9,10 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { useRegisterMutation } from "@/features/auth/auth";
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
 import type { NormalizedError } from "@/utils/error/errorType";
 import { useRouter } from "next/navigation";
 import VerifyModal from "@/features/auth/components/VerifyModal";
+import CustomAlert from "@/app/components/shared/Alert/CustomAlert";
 
 const Register = () => {
     const router = useRouter();
@@ -33,11 +33,6 @@ const Register = () => {
         severity: "success" | "error";
         message: string;
     }>({ open: false, severity: "success", message: "" });
-
-    const handleCloseSnackbar = (_?: React.SyntheticEvent | Event | null, reason?: string) => {
-        if (reason === "clickaway") return;
-        setSnackbar((prev) => ({ ...prev, open: false }));
-    }
 
     const handleClickRegister = async () => {
         setFieldErrors({}); // Reset field errors before making the request
@@ -157,22 +152,13 @@ const Register = () => {
                 onClick={handleClickRegister}>
                 Kayıt Ol
             </Button>
-
-            <Snackbar
+            <CustomAlert
                 open={snackbar.open}
-                autoHideDuration={6000}
-                onClose={handleCloseSnackbar}
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            >
-                <Alert
-                    onClose={handleCloseSnackbar}
-                    severity={snackbar.severity}
-                    variant="filled"
-                    sx={{ width: "100%" }}
-                >
-                    {snackbar.message}
-                </Alert>
-            </Snackbar>
+                message={snackbar.message}
+                severity={snackbar.severity}
+                autoHideDuration={3000}
+                onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
+            />
             <VerifyModal
                 open={verifyModalOpen}
                 email={registeredInfo.email}
