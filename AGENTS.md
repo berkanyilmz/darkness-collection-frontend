@@ -9,6 +9,7 @@
 - Proje arayüzü yalnızca **Material UI (`@mui/material` v9, `@mui/icons-material`)** ile geliştirilir; düz HTML form/buton/SVG elemanları veya Tailwind utility sınıfları kullanılmaz. Dış tasarım çıktıları (Stitch `code.html` vb.) yalnızca görsel referanstır ve MUI bileşenlerine çevrilir.
 - Her yeni sayfa, form, modal veya görsel güncellemede `.agents/skills/mui-ui-design/SKILL.md` rehberi uygulanır.
 - Renkler, tipografi ve `borderRadius` değerleri merkezi MUI tema mimarisinden yönetilir (`src/utils/theme/DarkThemeColors.tsx`, `LightThemeColors.tsx`, `Typography.tsx`, `Components.tsx`, `Theme.tsx`, `src/app/hooks/useThemeSettings.tsx`).
+- Tekrar eden bileşen stilleri (`fieldSx`, `labelSx`, buton/alert stilleri vb.) bileşen dosyalarının tepesine kopyalanmaz; uygulama geneli varsayılan stiller `src/utils/theme/Components.tsx` (`styleOverrides` / `variants`) içine yazılır, bileşen içi `sx` yalnızca o ekrana özgü yerleşim (layout/spacing) için kullanılır.
 - `src/app/theme/ThemeRegistery.tsx` içinde Next.js App Router uyumlu `NextAppDirEmotionCacheProvider` (`src/utils/theme/EmotionCache.tsx`) yapısı korunur; SSR hidrasyonunu bozacak şekilde düz `createEmotionCache()` kullanımına dönülmez.
 - MUI v9'da `Stack` üzerinde `alignItems`/`justifyContent` doğrudan prop değil `sx` içinde tanımlanır.
 - Paylaşılan UI bileşenleri yeniden yazılmaz, doğrudan kullanılır:

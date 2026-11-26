@@ -1,1 +1,1 @@
-Alert komponentini shared kısmına ekle
+register ve login sayfalarını kontrol et, ssl sertifikası gibi bilgiler var bunlar silinecek

@@ -6,6 +6,7 @@ import type { NormalizedError } from "@/utils/error/errorType";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import FormLabel from "@mui/material/FormLabel";
 import Alert from "@mui/material/Alert";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -20,29 +21,6 @@ interface VerifyModalProps {
   onClose: () => void;
   onVerify: () => void;
 }
-
-const codeFieldSx = {
-  "& .MuiOutlinedInput-root": {
-    bgcolor: "#141415",
-    borderRadius: 0,
-    color: "text.primary",
-    "& fieldset": {
-      borderColor: "#2A1A1E",
-      borderBottomColor: "#3D0F18",
-    },
-    "&:hover fieldset": {
-      borderColor: "#3D0F18",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "primary.main",
-      borderWidth: "1px",
-    },
-  },
-  "& .MuiInputBase-input": {
-    letterSpacing: "0.35em",
-    fontFamily: "monospace",
-  },
-};
 
 const VerifyModal = ({
   open,
@@ -194,43 +172,13 @@ const VerifyModal = ({
       disableBackdropClick
       actions={
         <Stack direction="row" spacing={1.5}>
-          <Button
-            variant="outlined"
-            onClick={handleClose}
-            disabled={isBusy}
-            sx={{
-              borderRadius: 0,
-              borderColor: "divider",
-              color: "text.secondary",
-              textTransform: "uppercase",
-              letterSpacing: "0.2em",
-              fontSize: "0.6875rem",
-              px: 3,
-              "&:hover": {
-                borderColor: "primary.main",
-                bgcolor: "transparent",
-                color: "text.primary",
-              },
-            }}
-          >
+          <Button variant="outlined" onClick={handleClose} disabled={isBusy}>
             İptal
           </Button>
           <Button
             variant="contained"
             onClick={handleVerify}
             disabled={isSubmitDisabled}
-            sx={{
-              borderRadius: 0,
-              bgcolor: "primary.main",
-              color: "primary.contrastText",
-              textTransform: "uppercase",
-              letterSpacing: "0.22em",
-              fontSize: "0.6875rem",
-              px: 3.5,
-              "&:hover": {
-                bgcolor: "primary.dark",
-              },
-            }}
           >
             {isVerifying ? "Doğrulanıyor..." : "Doğrula"}
           </Button>
@@ -249,70 +197,23 @@ const VerifyModal = ({
           numarasına gönderilen 6 haneli doğrulama kodlarını giriniz.
         </Typography>
 
-        {errorMessage && (
-          <Alert
-            severity="error"
-            sx={{
-              width: "100%",
-              borderRadius: 0,
-              border: "1px solid",
-              borderColor: "primary.main",
-              bgcolor: "rgba(42, 11, 16, 0.9)",
-              color: "#FFDAD6",
-            }}
-          >
-            {errorMessage}
-          </Alert>
-        )}
-
-        {infoMessage && (
-          <Alert
-            severity="info"
-            sx={{
-              width: "100%",
-              borderRadius: 0,
-              border: "1px solid",
-              borderColor: "secondary.main",
-              bgcolor: "#171717",
-              color: "#E5D0D3",
-            }}
-          >
-            {infoMessage}
-          </Alert>
-        )}
+        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+        {infoMessage && <Alert severity="info">{infoMessage}</Alert>}
 
         <Box>
           <Stack
             direction="row"
             sx={{ alignItems: "center", justifyContent: "space-between", mb: 1 }}
           >
-            <Typography
-              component="label"
-              htmlFor="email-verify-code"
-              sx={{
-                fontSize: "0.625rem",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.22em",
-                color: "#D1D1D6",
-              }}
-            >
+            <FormLabel htmlFor="email-verify-code" sx={{ mb: 0 }}>
               {emailVerified ? "E-Posta Doğrulandı" : "E-Posta Doğrulama Kodu"}
-            </Typography>
+            </FormLabel>
             {emailVerified && (
               <Chip
                 label="ONAYLANDI"
                 size="small"
-                sx={{
-                  height: 20,
-                  borderRadius: 0,
-                  fontSize: "0.5625rem",
-                  letterSpacing: "0.18em",
-                  bgcolor: "rgba(61, 15, 24, 0.45)",
-                  color: "#FF868B",
-                  border: "1px solid",
-                  borderColor: "secondary.main",
-                }}
+                variant="outlined"
+                color="secondary"
               />
             )}
           </Stack>
@@ -325,8 +226,13 @@ const VerifyModal = ({
             disabled={emailVerified || isBusy}
             color={emailVerified ? "success" : "primary"}
             onChange={(e) => setEmailCode(e.target.value)}
-            slotProps={{ htmlInput: { inputMode: "numeric", maxLength: 6 } }}
-            sx={codeFieldSx}
+            slotProps={{
+              htmlInput: {
+                inputMode: "numeric",
+                maxLength: 6,
+                style: { letterSpacing: "0.35em", fontFamily: "monospace" },
+              },
+            }}
           />
           {!emailVerified && (
             <Button
@@ -334,19 +240,7 @@ const VerifyModal = ({
               variant="text"
               disabled={isBusy || emailCooldown > 0}
               onClick={() => handleResend("EMAIL_VERIFICATION")}
-              sx={{
-                mt: 0.75,
-                px: 0,
-                bgcolor: "transparent !important",
-                color: "text.secondary",
-                fontSize: "0.625rem",
-                textTransform: "uppercase",
-                letterSpacing: "0.18em",
-                "&:hover": {
-                  bgcolor: "transparent !important",
-                  color: "#FF868B",
-                },
-              }}
+              sx={{ mt: 0.5, px: 0, fontSize: "0.625rem" }}
             >
               {emailCooldown > 0
                 ? `E-posta kodunu yeniden gönder (${emailCooldown} sn)`
@@ -360,33 +254,15 @@ const VerifyModal = ({
             direction="row"
             sx={{ alignItems: "center", justifyContent: "space-between", mb: 1 }}
           >
-            <Typography
-              component="label"
-              htmlFor="sms-verify-code"
-              sx={{
-                fontSize: "0.625rem",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.22em",
-                color: "#D1D1D6",
-              }}
-            >
+            <FormLabel htmlFor="sms-verify-code" sx={{ mb: 0 }}>
               {smsVerified ? "SMS Doğrulandı" : "SMS Doğrulama Kodu"}
-            </Typography>
+            </FormLabel>
             {smsVerified && (
               <Chip
                 label="ONAYLANDI"
                 size="small"
-                sx={{
-                  height: 20,
-                  borderRadius: 0,
-                  fontSize: "0.5625rem",
-                  letterSpacing: "0.18em",
-                  bgcolor: "rgba(61, 15, 24, 0.45)",
-                  color: "#FF868B",
-                  border: "1px solid",
-                  borderColor: "secondary.main",
-                }}
+                variant="outlined"
+                color="secondary"
               />
             )}
           </Stack>
@@ -399,8 +275,13 @@ const VerifyModal = ({
             disabled={smsVerified || isBusy}
             color={smsVerified ? "success" : "primary"}
             onChange={(e) => setSmsCode(e.target.value)}
-            slotProps={{ htmlInput: { inputMode: "numeric", maxLength: 6 } }}
-            sx={codeFieldSx}
+            slotProps={{
+              htmlInput: {
+                inputMode: "numeric",
+                maxLength: 6,
+                style: { letterSpacing: "0.35em", fontFamily: "monospace" },
+              },
+            }}
           />
           {!smsVerified && (
             <Button
@@ -408,19 +289,7 @@ const VerifyModal = ({
               variant="text"
               disabled={isBusy || smsCooldown > 0}
               onClick={() => handleResend("SMS_VERIFICATION")}
-              sx={{
-                mt: 0.75,
-                px: 0,
-                bgcolor: "transparent !important",
-                color: "text.secondary",
-                fontSize: "0.625rem",
-                textTransform: "uppercase",
-                letterSpacing: "0.18em",
-                "&:hover": {
-                  bgcolor: "transparent !important",
-                  color: "#FF868B",
-                },
-              }}
+              sx={{ mt: 0.5, px: 0, fontSize: "0.625rem" }}
             >
               {smsCooldown > 0
                 ? `SMS kodunu yeniden gönder (${smsCooldown} sn)`

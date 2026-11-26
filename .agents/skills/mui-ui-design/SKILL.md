@@ -18,6 +18,9 @@ Bu proje **yalnızca Material UI (`@mui/material`, `@mui/icons-material`)** ile 
 - **Düz HTML ve Tailwind yasağı:** `<input>`, `<button>`, `<label>`, `<form>`, `<svg>`, `<header>`, `<footer>` gibi düz HTML etiketleri veya Tailwind `className` stilleri yazma.
   - Semantik etiket gerektiğinde `Box component="header" | "main" | "section" | "footer" | "form" | "img"` veya `Typography component="label" | "blockquote"` kullan.
   - Tüm stiller MUI `theme` tokenları ve `sx` prop'u üzerinden verilir.
+- **Stil katmanlama kuralı (Tekrar yasağı):** `const fieldSx`, `const labelSx` gibi ortak input/etiket/buton/alert stil objelerini bileşen dosyalarının tepesine kopyalama.
+  - Uygulama geneli bileşen görünümleri (`MuiOutlinedInput`, `MuiFormLabel`, `MuiButton`, `MuiAlert`, `MuiDialog`, `MuiIconButton` vb.) `src/utils/theme/Components.tsx` içinde `styleOverrides` / `variants` olarak tanımlanır.
+  - Bileşen içindeki `sx` prop'u yalnızca o bileşene özgü yerleşim/boşluk (`mt`, `gap`, `maxWidth`, `gridTemplateColumns` vb.) için kullanılır.
 - **İkonlar:** Ham `<svg>` yazma; her zaman `@mui/icons-material` ikonlarını kullan.
 - **Bağlantılar:** `next/link` yerine `@mui/material/Link` kullan (`src/utils/theme/Theme.tsx` içinde `LinkBehavior` zaten varsayılan olarak tanımlıdır).
 

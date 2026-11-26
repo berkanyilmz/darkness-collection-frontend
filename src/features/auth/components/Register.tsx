@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
@@ -19,49 +20,6 @@ import type { NormalizedError } from "@/utils/error/errorType";
 import VerifyModal from "@/features/auth/components/VerifyModal";
 import CustomAlert from "@/app/components/shared/Alert/CustomAlert";
 import AuthShell from "@/features/auth/components/AuthShell";
-
-const fieldSx = {
-  "& .MuiOutlinedInput-root": {
-    bgcolor: "#141415",
-    borderRadius: 0,
-    fontSize: "0.875rem",
-    color: "text.primary",
-    "& fieldset": {
-      borderColor: "#2A1A1E",
-      borderBottomColor: "#3D0F18",
-    },
-    "&:hover fieldset": {
-      borderColor: "#3D0F18",
-    },
-    "&.Mui-focused": {
-      bgcolor: "#171717",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "primary.main",
-      borderWidth: "1px",
-    },
-    "&.Mui-error": {
-      bgcolor: "#1F0B10",
-    },
-    "&.Mui-error fieldset": {
-      borderColor: "primary.main",
-    },
-  },
-  "& .MuiInputBase-input::placeholder": {
-    color: "#7A6F72",
-    opacity: 1,
-  },
-};
-
-const labelSx = {
-  display: "block",
-  fontSize: "0.625rem",
-  fontWeight: 600,
-  textTransform: "uppercase",
-  letterSpacing: "0.22em",
-  color: "#D1D1D6",
-  mb: 1,
-};
 
 const Register = () => {
   const router = useRouter();
@@ -160,7 +118,6 @@ const Register = () => {
       >
         <Box component="form" onSubmit={handleSubmit} noValidate>
           <Stack spacing={2}>
-            {/* Ad & Soyad */}
             <Box
               sx={{
                 display: "grid",
@@ -169,9 +126,7 @@ const Register = () => {
               }}
             >
               <Box>
-                <Typography component="label" htmlFor="firstName" sx={labelSx}>
-                  Ad
-                </Typography>
+                <FormLabel htmlFor="firstName">Ad</FormLabel>
                 <TextField
                   fullWidth
                   required
@@ -181,14 +136,11 @@ const Register = () => {
                   placeholder="Adınız"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  sx={fieldSx}
                 />
               </Box>
 
               <Box>
-                <Typography component="label" htmlFor="lastName" sx={labelSx}>
-                  Soyad
-                </Typography>
+                <FormLabel htmlFor="lastName">Soyad</FormLabel>
                 <TextField
                   fullWidth
                   required
@@ -198,16 +150,12 @@ const Register = () => {
                   placeholder="Soyadınız"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  sx={fieldSx}
                 />
               </Box>
             </Box>
 
-            {/* Telefon Numarası */}
             <Box>
-              <Typography component="label" htmlFor="phoneNumber" sx={labelSx}>
-                Telefon Numarası
-              </Typography>
+              <FormLabel htmlFor="phoneNumber">Telefon Numarası</FormLabel>
               <TextField
                 fullWidth
                 required
@@ -224,31 +172,16 @@ const Register = () => {
                     setFieldErrors((prev) => ({ ...prev, phoneNumber: undefined }));
                   }
                 }}
-                sx={fieldSx}
               />
               {fieldErrors.phoneNumber && (
-                <Alert
-                  severity="error"
-                  sx={{
-                    mt: 1,
-                    py: 0.25,
-                    borderLeft: "2px solid",
-                    borderColor: "primary.main",
-                    bgcolor: "rgba(42, 11, 16, 0.9)",
-                    color: "#FFDAD6",
-                    borderRadius: 0,
-                  }}
-                >
+                <Alert severity="error" sx={{ mt: 1 }}>
                   {fieldErrors.phoneNumber}
                 </Alert>
               )}
             </Box>
 
-            {/* E-Posta */}
             <Box>
-              <Typography component="label" htmlFor="email" sx={labelSx}>
-                E-Posta Adresi
-              </Typography>
+              <FormLabel htmlFor="email">E-Posta Adresi</FormLabel>
               <TextField
                 fullWidth
                 required
@@ -265,31 +198,16 @@ const Register = () => {
                     setFieldErrors((prev) => ({ ...prev, email: undefined }));
                   }
                 }}
-                sx={fieldSx}
               />
               {fieldErrors.email && (
-                <Alert
-                  severity="error"
-                  sx={{
-                    mt: 1,
-                    py: 0.25,
-                    borderLeft: "2px solid",
-                    borderColor: "primary.main",
-                    bgcolor: "rgba(42, 11, 16, 0.9)",
-                    color: "#FFDAD6",
-                    borderRadius: 0,
-                  }}
-                >
+                <Alert severity="error" sx={{ mt: 1 }}>
                   {fieldErrors.email}
                 </Alert>
               )}
             </Box>
 
-            {/* Şifre */}
             <Box>
-              <Typography component="label" htmlFor="password" sx={labelSx}>
-                Şifre
-              </Typography>
+              <FormLabel htmlFor="password">Şifre</FormLabel>
               <TextField
                 fullWidth
                 required
@@ -300,7 +218,6 @@ const Register = () => {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                sx={fieldSx}
                 slotProps={{
                   input: {
                     endAdornment: (
@@ -310,14 +227,6 @@ const Register = () => {
                           onClick={() => setShowPassword((prev) => !prev)}
                           onMouseDown={(e) => e.preventDefault()}
                           edge="end"
-                          sx={{
-                            color: "#9E9E9E",
-                            borderRadius: 0,
-                            "&:hover": {
-                              bgcolor: "transparent",
-                              color: "text.primary",
-                            },
-                          }}
                         >
                           {showPassword ? (
                             <VisibilityOff fontSize="small" />
@@ -332,33 +241,16 @@ const Register = () => {
               />
             </Box>
 
-            {/* Submit Button */}
             <Button
               type="submit"
               variant="contained"
               fullWidth
               size="large"
               disabled={isLoading}
-              endIcon={!isLoading ? <ArrowForwardIcon sx={{ fontSize: 16 }} /> : undefined}
-              sx={{
-                height: 52,
-                mt: 1,
-                borderRadius: 0,
-                bgcolor: "primary.main",
-                color: "primary.contrastText",
-                border: "1px solid rgba(168, 45, 62, 0.4)",
-                fontSize: "0.6875rem",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.24em",
-                transition: "all 0.3s ease",
-                "&:hover": {
-                  bgcolor: "primary.dark",
-                  boxShadow: "0 0 24px rgba(122, 24, 37, 0.55)",
-                },
-              }}
+              endIcon={!isLoading ? <ArrowForwardIcon fontSize="small" /> : undefined}
+              sx={{ mt: 1 }}
             >
-              {isLoading ? "KAYIT OLUŞTURULUYOR..." : "KAYIT OL"}
+              {isLoading ? "Kayıt Oluşturuluyor..." : "Kayıt Ol"}
             </Button>
 
             <Typography
@@ -380,13 +272,10 @@ const Register = () => {
                   borderColor: "primary.main",
                   pb: 0.25,
                   ml: 0.5,
-                  transition: "color 0.2s ease",
-                  "&:hover": {
-                    color: "#FF868B",
-                  },
+                  "&:hover": { color: "error.main" },
                 }}
               >
-                GİRİŞ YAPIN
+                Giriş Yapın
               </MuiLink>
             </Typography>
           </Stack>

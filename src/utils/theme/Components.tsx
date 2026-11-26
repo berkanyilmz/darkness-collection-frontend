@@ -175,9 +175,17 @@ const components = (theme: Theme): Components => {
     MuiIconButton: {
       styleOverrides: {
         root: {
+          borderRadius: theme.shape.borderRadius,
+          color: theme.palette.text.secondary,
           "&:hover": {
-            backgroundColor: theme.palette.primary.light,
-            color: theme.palette.primary.main,
+            backgroundColor:
+              theme.palette.mode === "dark"
+                ? theme.palette.action.hover
+                : theme.palette.primary.light,
+            color:
+              theme.palette.mode === "dark"
+                ? theme.palette.text.primary
+                : theme.palette.primary.main,
           },
         },
         colorPrimary: {
@@ -221,17 +229,30 @@ const components = (theme: Theme): Components => {
     MuiButton: {
       styleOverrides: {
         root: {
-          textTransform: "none",
+          borderRadius: theme.shape.borderRadius,
+          textTransform: theme.typography.button.textTransform,
+          letterSpacing: theme.typography.button.letterSpacing,
+          fontWeight: theme.typography.button.fontWeight,
           boxShadow: "none",
+          transition: "all 0.3s ease",
           variants: [
             ...(["primary", "secondary", "success", "error", "info", "warning"] as const).map(
               (color) => ({
                 props: { variant: "text" as const, color },
                 style: {
-                  backgroundColor: theme.palette[color].light,
+                  backgroundColor:
+                    theme.palette.mode === "dark"
+                      ? "transparent"
+                      : theme.palette[color].light,
                   "&:hover": {
-                    backgroundColor: theme.palette[color].main,
-                    color: "white",
+                    backgroundColor:
+                      theme.palette.mode === "dark"
+                        ? "transparent"
+                        : theme.palette[color].main,
+                    color:
+                      theme.palette.mode === "dark"
+                        ? theme.palette.error.main
+                        : "white",
                   },
                 },
               })
@@ -240,20 +261,51 @@ const components = (theme: Theme): Components => {
               (color) => ({
                 props: { variant: "outlined" as const, color },
                 style: {
+                  borderColor: theme.palette.divider,
                   "&:hover": {
-                    backgroundColor: theme.palette[color].main,
-                    color: "white",
+                    borderColor: theme.palette[color].main,
+                    backgroundColor:
+                      theme.palette.mode === "dark"
+                        ? "transparent"
+                        : theme.palette[color].main,
+                    color: theme.palette.text.primary,
                   },
                 },
               })
             ),
+            {
+              props: { variant: "contained" as const, color: "primary" as const },
+              style: {
+                border:
+                  theme.palette.mode === "dark"
+                    ? "1px solid rgba(168, 45, 62, 0.4)"
+                    : undefined,
+                "&:hover": {
+                  backgroundColor: theme.palette.primary.dark,
+                  boxShadow:
+                    theme.palette.mode === "dark"
+                      ? "0 0 24px rgba(122, 24, 37, 0.55)"
+                      : "none",
+                },
+              },
+            },
           ],
+        },
+        sizeLarge: {
+          height: 52,
+          fontSize: "0.6875rem",
         },
         text: {
           padding: "5px 15px",
           "&:hover": {
-            backgroundColor: theme.palette.primary.light,
-            color: theme.palette.primary.main,
+            backgroundColor:
+              theme.palette.mode === "dark"
+                ? "transparent"
+                : theme.palette.primary.light,
+            color:
+              theme.palette.mode === "dark"
+                ? theme.palette.error.main
+                : theme.palette.primary.main,
           },
         },
       },
@@ -337,12 +389,24 @@ const components = (theme: Theme): Components => {
           color: "white",
         },
         root: {
+          borderRadius: theme.shape.borderRadius,
           variants: [
             ...(["success", "error", "warning", "info"] as const).map((severity) => ({
               props: { variant: "standard" as const, severity },
               style: {
                 backgroundColor: theme.palette[severity].light,
-                color: theme.palette[severity].main,
+                color:
+                  theme.palette.mode === "dark" && severity === "error"
+                    ? "#FFDAD6"
+                    : theme.palette[severity].main,
+                border:
+                  theme.palette.mode === "dark"
+                    ? `1px solid ${
+                        severity === "error"
+                          ? theme.palette.primary.main
+                          : theme.palette.secondary.main
+                      }`
+                    : undefined,
               },
             })),
             ...(["success", "error", "warning", "info"] as const).map((severity) => ({
@@ -356,21 +420,62 @@ const components = (theme: Theme): Components => {
         },
       },
     },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          display: "block",
+          fontSize: "0.625rem",
+          fontWeight: 600,
+          textTransform: "uppercase",
+          letterSpacing: "0.22em",
+          color: theme.palette.mode === "dark" ? "#D1D1D6" : theme.palette.text.secondary,
+          marginBottom: theme.spacing(1),
+        },
+      },
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
+          borderRadius: theme.shape.borderRadius,
+          fontSize: "0.875rem",
+          backgroundColor:
+            theme.palette.mode === "dark" ? theme.palette.grey[100] : undefined,
           "& .MuiOutlinedInput-notchedOutline": {
             borderColor:
               theme.palette.mode === "dark"
                 ? theme.palette.grey[200]
                 : theme.palette.grey[300],
+            borderBottomColor:
+              theme.palette.mode === "dark" ? theme.palette.divider : undefined,
           },
           "&:hover .MuiOutlinedInput-notchedOutline": {
             borderColor: theme.palette.grey[300],
           },
+          "&.Mui-focused": {
+            backgroundColor:
+              theme.palette.mode === "dark" ? "#171717" : undefined,
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: theme.palette.primary.main,
+            borderWidth: "1px",
+          },
+          "&.Mui-error": {
+            backgroundColor:
+              theme.palette.mode === "dark" ? theme.palette.error.light : undefined,
+          },
+          "&.Mui-error .MuiOutlinedInput-notchedOutline": {
+            borderColor:
+              theme.palette.mode === "dark"
+                ? theme.palette.primary.main
+                : theme.palette.error.main,
+          },
         },
         input: {
           padding: "12px 14px",
+          "&::placeholder": {
+            color: theme.palette.grey[400],
+            opacity: 1,
+          },
           variants: [
             {
               props: { size: "small" },
