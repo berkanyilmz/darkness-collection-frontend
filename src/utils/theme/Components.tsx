@@ -401,13 +401,31 @@ const components = (theme: Theme): Components => {
                     : theme.palette[severity].main,
                 border:
                   theme.palette.mode === "dark"
-                    ? `1px solid ${
-                        severity === "error"
-                          ? theme.palette.primary.main
-                          : theme.palette.secondary.main
-                      }`
+                    ? `1px solid ${severity === "error"
+                      ? theme.palette.primary.main
+                      : theme.palette.secondary.main
+                    }`
                     : undefined,
               },
+            })),
+            ...(["success", "error", "warning", "info"] as const).map((severity) => ({
+              props: { variant: "filled" as const, severity },
+              style:
+                theme.palette.mode === "dark"
+                  ? {
+                    backgroundColor: theme.palette[severity].light,
+                    color: theme.palette.text.primary,
+                    border: `1px solid ${severity === "error"
+                        ? theme.palette.error.dark
+                        : severity === "info"
+                          ? theme.palette.info.dark
+                          : theme.palette[severity].main
+                      }`,
+                    "& .MuiAlert-icon": {
+                      color: `${theme.palette[severity].main} !important`,
+                    },
+                  }
+                  : {},
             })),
             ...(["success", "error", "warning", "info"] as const).map((severity) => ({
               props: { variant: "outlined" as const, severity },
