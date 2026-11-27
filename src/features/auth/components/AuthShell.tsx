@@ -59,30 +59,6 @@ const AuthShell = ({
         },
       }}
     >
-      {/* Top Announcement Ribbon */}
-      <Box
-        sx={{
-          width: "100%",
-          bgcolor: "#120406",
-          borderBottom: "1px solid",
-          borderColor: "divider",
-          py: 1,
-          px: { xs: 2.5, md: 8 },
-          textAlign: "center",
-        }}
-      >
-        <Typography
-          variant="overline"
-          sx={{
-            color: "#E5E5E5",
-            fontSize: { xs: "0.5625rem", sm: "0.625rem" },
-            letterSpacing: "0.26em",
-            display: "block",
-          }}
-        >
-          DARKNESS COLLECTION ATELIER — ÖZEL KOLEKSİYONER ERİŞİMİ &amp; 256-BİT SSL GÜVENCESİ
-        </Typography>
-      </Box>
 
       {/* Editorial Header */}
       <Box
@@ -514,34 +490,6 @@ const AuthShell = ({
 
             {children}
 
-            {/* Security Seal Footer */}
-            <Box sx={{ mt: 3.5, pt: 3, borderTop: "1px solid #2A1A1E" }}>
-              <Stack
-                direction="row"
-                spacing={1}
-                sx={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  bgcolor: "#0D0D0E",
-                  border: "1px solid rgba(61, 15, 24, 0.6)",
-                  px: 1.5,
-                  py: 1,
-                }}
-              >
-                <ShieldOutlinedIcon sx={{ fontSize: 15, color: "#FF868B" }} />
-                <Typography
-                  sx={{
-                    fontSize: "0.5625rem",
-                    fontWeight: 600,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.2em",
-                    color: "#D1D1D6",
-                  }}
-                >
-                  256-BİT SSL KORUMALI GÜVENLİ ATELIER ERİŞİMİ
-                </Typography>
-              </Stack>
-            </Box>
           </Paper>
         </Box>
       </Box>
